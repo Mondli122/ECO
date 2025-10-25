@@ -8,14 +8,14 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
-    // Add proxy for API calls to avoid CORS issues
+    // Proxy API calls to avoid CORS
     proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
+      "/api": {
+        target: "http://localhost:5000",
         changeOrigin: true,
         secure: false,
-      }
-    }
+      },
+    },
   },
   plugins: [
     react(),
@@ -23,25 +23,23 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(__dirname, "src"),
     },
   },
-  // Build configuration for production
   build: {
-    outDir: 'dist',
-    sourcemap: mode === 'development',
+    outDir: "dist",
+    sourcemap: mode === "development",
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          ui: ['@/components/ui']
-        }
-      }
-    }
+          vendor: ["react", "react-dom"]
+          // Removed 'ui' chunk to prevent EISDIR error
+        },
+      },
+    },
   },
-  // Preview server configuration
   preview: {
     port: 8080,
-    host: true
-  }
+    host: true,
+  },
 }));
